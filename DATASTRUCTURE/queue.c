@@ -1,90 +1,114 @@
 #include <stdio.h>
-int q[5], i, item, size, front=-1, rear=-1;
+#define MAX_SIZE 5 
+int q[MAX_SIZE]; 
+int front = -1;
+int rear = -1;
+int i; 
+
 void enqueue(int item)
 {
-    if (rear==size)
+    if (rear == MAX_SIZE - 1)
     {
-        printf("queue is full\n");
+        printf("Queue is full. Cannot enqueue %d.\n", item);
     }
     else
     {
-        if (rear==-1)
+        if (front == -1) 
         {
-            front=0;
-            rear=0;
-            q[rear]=item;
+            front = 0;
+            rear = 0;
+            q[rear] = item;
+            printf("%d enqueued.\n", item);
         }
         else
         {
-            rear=rear+1;
-            q[rear]=item;
+            rear = rear + 1;
+            q[rear] = item;
+            printf("%d enqueued.\n", item);
         }
     }
 }
+
 void dequeue()
 {
-    if (front==-1 && rear==-1)
+    if (front == -1 && rear == -1)
     {
-        printf("queue is empty\n");
+        printf("Queue is empty. Cannot dequeue.\n");
     }
-    else{
-        if(front==rear)
+    else
+    {
+        int deleted_item = q[front]; 
+        printf("Deleted item is %d\n", deleted_item);
+        if (front == rear)
         {
-            printf("deleted item is %d", q[front]);
-            front=-1;
-            rear=-1;
+            front = -1;
+            rear = -1;
         }
-        else{
-            item=q[front];
-            printf("deleted item id %d", q[front]);
-            front=front+1;
+        else
+        {
+            front = front + 1;
         }
     }
 }
+
 void display()
 {
-    for (i=front;i<=rear;i++)
+    if (front == -1)
     {
-        printf("%d",q[i]);
+        printf("Queue is empty. Nothing to display.\n");
+    }
+    else
+    {
+        printf("Queue elements: ");
+        for (i = front; i <= rear; i++)
+        {
+            printf("%d ", q[i]);
+        }
+        printf("\n");
     }
 }
-void main()
+int main()
 {
     int choice;
-    printf("enter the size");
-    scanf("%d",&size);
+    int item; 
+    printf("Queue size is fixed to %d.\n", MAX_SIZE); 
+    
     do
     {
-        printf("\nenter the choice");
-        printf("\n1.enqueue  \n2.dequeue  \n3.display 4.exit\n");
-        scanf("%d",&choice);
+        printf("\n--- Queue Operations ---\n");
+        printf("1. Enqueue\n2. Dequeue\n3. Display\n4. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
         switch(choice)
         {
             case 1:
             {
-                printf("enter the item to be inserted");
-                scanf("%d",&item);
+                printf("Enter the item to be inserted: ");
+                scanf("%d", &item);
                 enqueue(item);
                 break;
             }
             case 2:
             {
-                dequeue(item);
+                dequeue(); 
                 break;
             }
             case 3:
             {
-                display(item);
+                display();
                 break;
             }
             case 4:
             {
-                printf("exit");
+                printf("Exiting program.\n");
                 break;
             }
-            default:printf("invalid choice");
+            default:
+                printf("Invalid choice.\n");
         }
     }
     while(choice != 4);
 
+    return 0; 
 }
